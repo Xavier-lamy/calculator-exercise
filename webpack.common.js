@@ -1,6 +1,5 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const devMode = process.env.NODE_ENV !== "production";
 
 module.exports = {
     entry: {
@@ -15,37 +14,30 @@ module.exports = {
         */
         filename: '[name].[contenthash].js',
         //Same for the assets name (like images)
-        assetModuleFilename: '[name].[ext]',
+        assetModuleFilename: 'assets/[hash][ext]',
         //Clear the dist everytime we compile so old files doesn't stay:
         clean: true,
     },
     //loaders
     module: {
         rules: [
-            //Sass, PostCSS and Css
-            {
-                test: /\.(sa|sc|c)ss$/,
-                use: [
-                    //check for dev or prod, load style-loader on dev and minicssextractplugin on prod
-                    devMode ? "style-loader" : MiniCssExtractPlugin.loader,
-                    "css-loader",
-                    "postcss-loader",
-                    "sass-loader",
-                ],
-            }, 
-
             //Create a regex for images, type asset/resource copy it into the distribution file and load it to make it available for js files:
             {
-                test: /\.(ico|webp|gif|png|jpe?g)$/, 
-                type:'asset/resource'
+                test: /\.(ico|webp|gif|png|jp(e)?g|svg)$/, 
+                type:'asset/resource',
+                generator: {
+                    filename: 'assets/images/[name][ext]'
+                },
             },
 
             //Loader for fonts and SVG:
             {
-                test: /\.(woff(2)?|eot|[ot]tf|svg)$/,
+                test: /\.(woff(2)?|eot|[ot]tf)$/,
                 type: 'asset/inline',
+                generator: {
+                    filename: 'assets/fonts/[name][ext]'
+                },
             },
-
 
             //js for babel, use exclude to avoid babel searching into node_modules: 
             { 
