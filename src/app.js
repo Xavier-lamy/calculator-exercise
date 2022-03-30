@@ -1,4 +1,4 @@
-import style from './main.css';
+import style from './main.scss';
 import logo from './logo.svg';
 
 console.log('test webpack');
