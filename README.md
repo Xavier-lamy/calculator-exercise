@@ -113,3 +113,33 @@ Ces éléments seront considérés comme opérateurs complexes
     <span id="input_zone" data-type="result" data-value="11" class="font-bold text-lg">11</span>
 </div>
 ```
+
+## Pour les boutons:
+```html
+<div id="keyboard" class="grid grid-cols-4 gap-1 mt-1">
+    <button data-class="complex_operator" data-value="%" class="bg-gray-100 p-2 hover:bg-gray-300">%</button>
+    <button data-class="delete_button" data-value="CE" class="bg-gray-100 p-2 hover:bg-gray-300">CE</button>
+    <button data-class="delete_button" data-value="C" class="bg-gray-100 p-2 hover:bg-gray-300">C</button>
+    <button data-class="delete_button" data-value="DEL" class="bg-gray-100  hover:bg-gray-300">DEL</button>
+    <button data-class="complex_operator" data-value="1/x" class="bg-gray-100 p-2 hover:bg-gray-300">1/x</button>
+    <button data-class="complex_operator" data-value="x²" class="bg-gray-100 p-2 hover:bg-gray-300">x²</button>
+    <button data-class="complex_operator" data-value="√x" class="bg-gray-100 p-2 hover:bg-gray-300">√x</button>
+    <button data-class="operator" data-value="/" class="bg-gray-100 p-2 hover:bg-gray-300">/</button>
+    <button data-class="numeric" data-value="7" class="bg-white p-2 hover:bg-gray-300">7</button>
+    <button data-class="numeric" data-value="8" class="bg-white p-2 hover:bg-gray-300">8</button>
+    <button data-class="numeric" data-value="9" class="bg-white p-2 hover:bg-gray-300">9</button>
+    <button data-class="operator" data-value="*" class="bg-gray-100 p-2 hover:bg-gray-300">*</button>
+    <button data-class="numeric" data-value="4" class="bg-white p-2 hover:bg-gray-300">4</button>
+    <button data-class="numeric" data-value="5" class="bg-white p-2 hover:bg-gray-300">5</button>
+    <button data-class="numeric" data-value="6" class="bg-white p-2 hover:bg-gray-300">6</button>
+    <button data-class="operator" data-value="-" class="bg-gray-100 p-2 hover:bg-gray-300">-</button>
+    <button data-class="numeric" data-value="1" class="bg-white p-2 hover:bg-gray-300">1</button>
+    <button data-class="numeric" data-value="2" class="bg-white p-2 hover:bg-gray-300">2</button>
+    <button data-class="numeric" data-value="3" class="bg-white p-2 hover:bg-gray-300">3</button>
+    <button data-class="operator" data-value="+" class="bg-gray-100 p-2 hover:bg-gray-300">+</button>
+    <button data-class="switch_sign" data-value="+/-" class="bg-white p-2 hover:bg-gray-300">+/-</button>
+    <button data-class="numeric" data-value="0" class="bg-white p-2 hover:bg-gray-300">0</button>
+    <button data-class="float" data-value="," class="bg-white p-2 hover:bg-gray-300">,</button>
+    <button data-class="equal" data-value="=" class="bg-green-200 p-2 hover:bg-gray-300">=</button>
+</div>
+```

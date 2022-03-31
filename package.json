@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "JS Calculator",
   "dependencies": {
+    "npm-run-all": "^4.1.5",
     "webpack-dev-server": "^4.7.4"
   },
   "devDependencies": {
@@ -26,10 +27,11 @@
     "webpack-merge": "^5.8.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack serve --config webpack.dev.js",
-    "watch": "webpack --watch --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js"
+    "start": "run-p start:**",
+    "start:serve": "webpack serve --config webpack.dev.js",
+    "start:watch": "webpack --watch --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
