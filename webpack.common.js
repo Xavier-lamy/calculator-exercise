@@ -34,9 +34,6 @@ module.exports = {
             {
                 test: /\.(woff(2)?|eot|[ot]tf)$/,
                 type: 'asset/inline',
-                generator: {
-                    filename: 'assets/fonts/[name][ext]'
-                },
             },
 
             //js for babel, use exclude to avoid babel searching into node_modules: 
