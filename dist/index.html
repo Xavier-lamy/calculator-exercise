@@ -5,11 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
-<script defer src="app.c553f7fa125fdb092ba1.js"></script></head>
+<script defer src="app.8b16a56ee3711c495be8.js"></script></head>
 <body class="bg-gray-400 p-3 font-calculator">
     <h1 class="text-center text-white text-3xl">Online Calculator</h1>
     <span class="peer hover:cursor-pointer text-sm bg-white p-1 my-2 block w-fit mx-auto">Rotate</span>
-    <div class="peer-hover:rotate-180 text-center max-w-xs mx-auto my-3">
+    <div id="calculator" class="peer-hover:rotate-180 text-center max-w-xs mx-auto my-3">
         <div class="bg-gray-600 h-24 text-white p-2 flex flex-col justify-between items-end">
             <span id="current_calc">
                 <span id="previous_number" data-value=""></span>
@@ -19,11 +19,11 @@
             </span>
             <span id="input_zone" data-type="current" data-value="0" class="font-bold text-lg">0</span>
         </div>
-        <div id="keyboard" class="grid grid-cols-4 gap-1 mt-1">
+        <div id="calculator_keyboard" class="grid grid-cols-4 gap-1 mt-1">
             <button data-class="complex_operator" data-value="%" class="bg-gray-100 p-2 hover:bg-gray-300">%</button>
-            <button data-class="delete_button" data-value="CE" class="bg-gray-100 p-2 hover:bg-gray-300">CE</button>
-            <button data-class="delete_button" data-value="C" class="bg-gray-100 p-2 hover:bg-gray-300">C</button>
-            <button data-class="delete_button" data-value="DEL" class="bg-gray-100  hover:bg-gray-300">DEL</button>
+            <button data-class="delete_button" data-value="clear_error" class="bg-gray-100 p-2 hover:bg-gray-300">CE</button>
+            <button data-class="delete_button" data-value="clear_all" class="bg-gray-100 p-2 hover:bg-gray-300">C</button>
+            <button data-class="delete_button" data-value="clear_last" class="bg-gray-100  hover:bg-gray-300">DEL</button>
             <button data-class="complex_operator" data-value="1/x" class="bg-gray-100 p-2 hover:bg-gray-300">1/x</button>
             <button data-class="complex_operator" data-value="x²" class="bg-gray-100 p-2 hover:bg-gray-300">x²</button>
             <button data-class="complex_operator" data-value="√x" class="bg-gray-100 p-2 hover:bg-gray-300">√x</button>
@@ -42,7 +42,7 @@
             <button data-class="operator" data-value="+" class="bg-gray-100 p-2 hover:bg-gray-300">+</button>
             <button data-class="switch_sign" data-value="+/-" class="bg-white p-2 hover:bg-gray-300">+/-</button>
             <button data-class="numeric" data-value="0" class="bg-white p-2 hover:bg-gray-300">0</button>
-            <button data-class="float" data-value="," class="bg-white p-2 hover:bg-gray-300">,</button>
+            <button data-class="float_point" data-value="," class="bg-white p-2 hover:bg-gray-300">,</button>
             <button data-class="equal" data-value="=" class="bg-green-200 p-2 hover:bg-gray-300">=</button>
         </div>
     </div>

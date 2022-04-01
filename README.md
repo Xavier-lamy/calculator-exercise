@@ -116,7 +116,7 @@ Ces éléments seront considérés comme opérateurs complexes
 
 ## Pour les boutons:
 ```html
-<div id="keyboard" class="grid grid-cols-4 gap-1 mt-1">
+<div id="calculator_keyboard" class="grid grid-cols-4 gap-1 mt-1">
     <button data-class="complex_operator" data-value="%" class="bg-gray-100 p-2 hover:bg-gray-300">%</button>
     <button data-class="delete_button" data-value="CE" class="bg-gray-100 p-2 hover:bg-gray-300">CE</button>
     <button data-class="delete_button" data-value="C" class="bg-gray-100 p-2 hover:bg-gray-300">C</button>
