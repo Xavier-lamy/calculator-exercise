@@ -2,8 +2,17 @@
 import style from './main.scss';
 
 //Imports
-import './functions/regex.js';
+import {    
+    isDeleteButton,
+    isComplexOperator,
+    isEqualSign,
+    isDecimalNumber,
+    isFloatPoint,
+    isOperator,
+    isDigit,
+} from './functions/regex.js';
 
+//Variables
 let inputZone = document.getElementById("input_zone");
 let calculatorKeyboard = document.getElementById("calculator_keyboard");
 
@@ -12,30 +21,110 @@ let operatorSignElement = document.getElementById("operator_sign");
 let latestNumberElement = document.getElementById("latest_number");
 let equalSignElement = document.getElementById("equal_sign");
 
-const digitsReg = new RegExp(/^[0-9]$/);
-const isDigit = value => digitsReg.test(value);
+let maxDigitSize = 16;
 
-const operatorsReg = new RegExp(/^[-/*+]$/);
-const isOperator = value => operatorsReg.test(value);
+//math functions
+const sum = (a, b) => a + b;
+const subtraction = (a, b) => a - b;
+const multiplication = (a, b) => a * b;
+const division = (a, b) => a / b;
 
-const floatingPointReg = new RegExp(/^[.,]$/);
-const isfloatingPoint = value => floatingPointReg.test(value);
-
-const equalSignReg = new RegExp(/^=|Enter$/);
-const isEqualSign = value => equalSignReg.test(value);
-
-const complexOperatorReg = new RegExp(/^[%²]$/);
-const isComplexOperator = value => complexOperatorReg.test(value);
-
-const deleteButtonReg = new RegExp(/^Backspace|Delete|Escape|clear_(error|all|last)$/);
-const isDeleteButton = value => deleteButtonReg.test(value);
-
+//Functions
 let currentUserInputValue = '';
 let currentUserInputClass = '';
-const treatUserInput = (currentUserInputValue, currentUserInputClass) => {
-    console.log(currentUserInputValue + currentUserInputClass);
+
+/**
+ * 
+ * @param {string} rawValue 
+ * @returns 
+ */
+const renderDisplayValue = rawValue => {
+    return rawValue.replace('.', ',');
 }
 
+/** */
+const renderCurrentCalcDisplayValue = rawValue => {
+    return rawValue.replace('.', ',').replace(/,$/, '');
+}
+
+const displayNumberInInputZone = currentUserInputValue => {
+
+    let rawValue = inputZone.dataset.value + currentUserInputValue;
+
+    if (inputZone.dataset.type != "current" || (inputZone.dataset.value == "0" && !isFloatPoint(currentUserInputValue))){
+        rawValue = currentUserInputValue;
+        inputZone.dataset.type = "current";
+    }
+
+    let displayValue = renderDisplayValue(rawValue);
+
+    inputZone.dataset.value = rawValue;
+    inputZone.innerText = displayValue;
+}
+
+const displayDecimalNumber = currentUserInputValue => {
+    if(isDecimalNumber(inputZone.dataset.value)){
+        return;
+    }
+    displayNumberInInputZone(currentUserInputValue);
+}
+
+const calculate = () => {
+    let firstOperand = parseFloat(previousNumberElement.dataset.value);
+    let operatorSign = operatorSignElement.dataset.value;
+    let secondOperand = parseFloat(inputZone.dataset.value);
+
+    switch (operatorSign) {
+        case "+":
+            return sum(firstOperand, secondOperand);
+
+        case "-":
+            return subtraction(firstOperand, secondOperand);
+
+        case "*":
+            return multiplication(firstOperand, secondOperand);
+
+        case "/":
+            return division(firstOperand, secondOperand);
+    
+        default:
+            break;
+    }
+}
+
+const displayOperator = currentUserInputValue => {
+    let rawValue = inputZone.dataset.value;
+    
+    if(previousNumberElement.innerText.length != 0 && inputZone.dataset.type != "temporary"){
+        rawValue = calculate();
+    }
+
+    let displayValue = renderCurrentCalcDisplayValue(rawValue.toString());
+
+    previousNumberElement.dataset.value = rawValue;
+    previousNumberElement.innerText = displayValue;
+
+    inputZone.dataset.type = "temporary";
+    operatorSignElement.dataset.value = currentUserInputValue;
+    operatorSignElement.innerText = currentUserInputValue;
+}
+
+const treatUserInput = (currentUserInputValue, currentUserInputClass) => {
+    /* console.log(currentUserInputValue + currentUserInputClass); */
+    if(isDigit(currentUserInputValue) && currentUserInputClass === "numeric" && inputZone.dataset.value.length < 16) {
+        displayNumberInInputZone(currentUserInputValue);
+    }
+
+    if(isFloatPoint(currentUserInputValue) && currentUserInputClass === "float_point" && inputZone.dataset.value.length < 16) {
+        displayDecimalNumber(currentUserInputValue);
+    }
+
+    if(isOperator(currentUserInputValue) && currentUserInputClass === "operator"){
+        displayOperator(currentUserInputValue);
+    }
+}
+
+//Main script
 try {
     //Listen for mouse input value
     calculatorKeyboard.addEventListener("click", (event) => {
@@ -54,8 +143,8 @@ try {
             currentUserInputValue = event.key;
             currentUserInputClass = "operator";
         }
-        else if(isfloatingPoint(event.key)){
-            currentUserInputValue = event.key;
+        else if(isFloatPoint(event.key)){
+            currentUserInputValue = ".";
             currentUserInputClass = "float_point";
         }
         else if(isEqualSign(event.key)){

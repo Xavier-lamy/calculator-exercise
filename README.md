@@ -4,35 +4,35 @@
 
 ## Algorithme:
 1. Réglages de base: 
-    - Valeur par défaut dans la calculatrice: ``0`` ✔️
-    - ``input_zone`` correspond au bas de l'écran d'affichage et sert à afficher soit le nombre tapé actuellement par l'utilisateur, soit le résultat du précédent calcul, il est définit par un id (``input_zone``) et un attribut ``data-type`` égal soit à ``current`` si il s'agit du nombre tapé, soit à ``result`` si c'est le résultat d'une opération, ou ``error`` s'il y a une erreur, il possède un attribut ``data-value`` pour afficher la valeur réelle du champ (différente de la valeur visuelle, ex: valeur visuelle ``5²`` valeur réelle ``25`` ) ✔️
-    - ``current_calc`` correspond au haut de l'écran d'affichage et sert à afficher le calcul en cours ✔️
+    - ✔️Valeur par défaut dans la calculatrice: ``0`` 
+    - ✔️``input_zone`` correspond au bas de l'écran d'affichage et sert à afficher soit le nombre tapé actuellement par l'utilisateur, soit le résultat du précédent calcul, il est définit par un id (``input_zone``) et un attribut ``data-type`` égal soit à ``current`` si il s'agit du nombre tapé, soit à ``result`` si c'est le résultat d'une opération, ``temporary`` si c'est un nombre en attente (ex: quand on vient d'entrer un opérateur le nombre tapé précedemment reste dans l'``inputZone`` mais doit être écrasé par un éventuel nouveau nombre) , ou ``error``, s'il y a une erreur, il possède un attribut ``data-value`` pour afficher la valeur réelle du champ (différente de la valeur visuelle, ex: valeur visuelle ``5²`` valeur réelle ``25`` ) 
+    - ✔️``current_calc`` correspond au haut de l'écran d'affichage et sert à afficher le calcul en cours 
 2. Récupérer:
-    - le click de la souris sur une touche -> déterminer la valeur de cette touche (data-value du bouton)
-    - ou la pression d'une touche du clavier -> déterminer la valeur de cette touche (valeur de la touche dans l'event)
+    - ✔️le click de la souris sur une touche -> déterminer la valeur de cette touche (data-value du bouton) 
+    - ✔️ou la pression d'une touche du clavier -> déterminer la valeur de cette touche (valeur de la touche dans l'event) 
 3. valeur touche 
     + Si type valeur = chiffre:
-        - Si pas encore de chiffre -> Afficher le contenu de cette touche sur l'écran dans la zone affichage ``input_zone``
-        - Si chiffre déjà présent -> créer un nombre à partir du ``chiffre précédent`` et du ``chiffre entré``
+        - ✔️Si pas encore de chiffre (= 0) -> Afficher le contenu de cette touche sur l'écran dans la zone affichage ``input_zone`` 
+        - ✔️Si chiffre déjà présent -> créer un nombre à partir du ``chiffre précédent`` et du ``chiffre entré`` 
         - Si valeur déjà présente n'est pas un chiffre (contient l'attribut ``data-nan``, c'est à dire le résultat de 1/x, x², √x ou x%) on efface cette donnée déjà présente pour la remplacer par le nombre (qui est de toute façon déjà présent dans ``current_calc``)
     + Si valeur = ``,`` :
-        - ajouter une virgule au nombre pour en faire un nombre décimal
+        - ✔️ajouter une virgule au nombre pour en faire un nombre décimal 
     + Si valeur = ``+/-``:
         - Si valeur affichée dans zone affichage ``input_zone`` est ``positive`` -> la rendre négative
         - Si valeur affichée dans zone affichage ``input_zone`` est ``négative`` -> la rendre positive
 
     + Si type valeur = opérateur(``+ - * /``): 
-        - Si entrée précédente = ``,`` (çàd pas de chiffre après la virgule, ne pas comptabiliser la virgule, ``63,`` compte comme un ``63``)
+        - ✔️Si entrée précédente = ``,`` (çàd pas de chiffre après la virgule, ne pas comptabiliser la virgule, ``63,`` compte comme un ``63``)
 
-        - Afficher le précedent nombre et l'opérateur de calcul dans la zone ``current_calc``, calculer si besoin le précédent nombre si on a déjà plusieurs **tours**,:
+        - ✔️Afficher le précedent nombre et l'opérateur de calcul dans la zone ``current_calc``, calculer si besoin le précédent nombre si on a déjà plusieurs **tours**,:
             > Exemple on a rentré ``10`` puis ``+`` on a donc ``10 +`` dans la zone ``current_calc`` si on rentre ``15`` puis ``+`` à nouveau, on calcule d'abord le premier calcul ``10+15=25`` puis on affiche ``25 +`` dans la zone ``current_calc`` et ``25`` dans ``input_zone``
 
-            -  on laisse aussi le précédent nombre dans la zone ``input_zone`` tant qu'il n'est pas changé par l'utilisateur:
+            - ✔️on laisse aussi le précédent nombre dans la zone ``input_zone`` tant qu'il n'est pas changé par l'utilisateur:
             > Exemple quand on rentre ``10`` puis ``+`` on a donc ``10 +`` dans la zone ``current_calc`` et ``10`` dans la zone ``input_zone``
 
-        - Si ``current_calc`` termine par un opérateur(``+ - * /``) -> On change cet opérateur par le nouveau pressé
+        - ✔️Si ``current_calc`` termine par un opérateur(``+ - * /``) -> On change cet opérateur par le nouveau pressé
 
-        - Si ``current_calc`` termine par ``=`` -> on vient de faire un calcul, on passe alors la valeur de ``input_zone`` (=``résultat`` du précédent calcul) dans calcul en cours avec l'opérateur
+        - Si ``current_calc`` termine par ``=`` -> on vient de faire un calcul, on passe alors la valeur de ``input_zone`` dans calcul en cours avec l'opérateur
 
         - Si ``current_calc`` a un calcul non résolu (ex: le système de pourcentage peut laisser un calcul de type ``a + (b% de a)`` et ``(b% de a)`` dans ``input_zone``,  on résout alors le calcul de ``current_calc`` et on affiche ``c +`` dans ``current_calc`` et le résultat ``c`` dans ``input_zone``)
 
@@ -73,12 +73,12 @@ Ces éléments seront considérés comme opérateurs complexes
 
 ### Erreurs et détails à prendre en compte:
 - Division par zéro -> renvoie un message d'erreur
-- Nombre en entrée supérieur à 16 caractères -> ne peut pas écrire plus
+- Nombre en entrée supérieur à 16 caractères -> ne peut pas écrire plus ✔️
 - Nombre en sortie supérieur à 16 caractères -> est transformé en puissance de 10 pour l'affichage: exemple 11 000 000 000 000 000 est transformé en 1.1e+16 (1.1*10^16)
 - Résultat trop grand ou trop petit (limite à 9,999999999999488e+8191 et 9,999999999999488e-8191) -> message de dépassement de capacité, à voir si on met une limite en fonction des capacités de js , ou une limite manuelle
 - Les nombres à l'affichage doivent être séparés en paquet de 3 chiffres
-- Que se passe-t-il si une touche est pressé en même temps qu'une cliquée -> s'assurer que l'une soit prioritaire
-- Si une erreur non prévue par les éléments ci-dessus -> écrire ``ERROR`` dans ``input_zone`` et mettre le ``data-type=error``
+- Que se passe-t-il si une touche est pressé en même temps qu'une cliquée -> s'assurer que l'une soit prioritaire ✔️
+- Si une erreur non prévue par les éléments ci-dessus -> écrire ``ERROR`` dans ``input_zone`` et mettre le ``data-type=error`` ✔️
 
 ### Exemple
 + L'utilisateur a déjà taper ``6 +`` il est en train d'entrer ``5``

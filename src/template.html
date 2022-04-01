@@ -13,11 +13,11 @@
         <div class="bg-gray-600 h-24 text-white p-2 flex flex-col justify-between items-end">
             <span id="current_calc">
                 <span id="previous_number" data-value=""></span>
-                <span id="operator_sign"></span>
+                <span id="operator_sign" data-value=""></span>
                 <span id="latest_number" data-value=""></span>
                 <span id="equal_sign"></span>
             </span>
-            <span id="input_zone" data-type="current" data-value="0" class="font-bold text-lg">0</span>
+            <span id="input_zone" data-type="current" data-value="0" class="text-sm sm:font-bold sm:text-lg whitespace-nowrap">0</span>
         </div>
         <div id="calculator_keyboard" class="grid grid-cols-4 gap-1 mt-1">
             <button data-class="complex_operator" data-value="%" class="bg-gray-100 p-2 hover:bg-gray-300">%</button>
@@ -42,7 +42,7 @@
             <button data-class="operator" data-value="+" class="bg-gray-100 p-2 hover:bg-gray-300">+</button>
             <button data-class="switch_sign" data-value="+/-" class="bg-white p-2 hover:bg-gray-300">+/-</button>
             <button data-class="numeric" data-value="0" class="bg-white p-2 hover:bg-gray-300">0</button>
-            <button data-class="float_point" data-value="," class="bg-white p-2 hover:bg-gray-300">,</button>
+            <button data-class="float_point" data-value="." class="bg-white p-2 hover:bg-gray-300">,</button>
             <button data-class="equal" data-value="=" class="bg-green-200 p-2 hover:bg-gray-300">=</button>
         </div>
     </div>
