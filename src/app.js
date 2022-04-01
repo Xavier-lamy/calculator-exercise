@@ -56,6 +56,13 @@ const displayNumberInInputZone = currentUserInputValue => {
         inputZone.dataset.type = "current";
     }
 
+    if(inputZone.dataset.type == "current"){
+        previousNumberElement.innerText = "";
+        operatorSignElement.innerText = "";
+        latestNumberElement.innerText = "";
+        equalSignElement.innerText = "";
+    }
+
     let displayValue = renderDisplayValue(rawValue);
 
     inputZone.dataset.value = rawValue;

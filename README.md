@@ -15,6 +15,7 @@
         - ✔️Si pas encore de chiffre (= 0) -> Afficher le contenu de cette touche sur l'écran dans la zone affichage ``input_zone`` 
         - ✔️Si chiffre déjà présent -> créer un nombre à partir du ``chiffre précédent`` et du ``chiffre entré`` 
         - Si valeur déjà présente n'est pas un chiffre (contient l'attribut ``data-nan``, c'est à dire le résultat de 1/x, x², √x ou x%) on efface cette donnée déjà présente pour la remplacer par le nombre (qui est de toute façon déjà présent dans ``current_calc``)
+        - ✔️Si on a déjà un résultat (``input_zone`` = ``result`` et ``current_calc`` termine par ``=``) alors on efface complètement ``current_calc`` et on affiche le nouveau nombre dans ``input_zone`` avec valeur ``content``
     + Si valeur = ``,`` :
         - ✔️ajouter une virgule au nombre pour en faire un nombre décimal 
     + Si valeur = ``+/-``:
@@ -40,7 +41,7 @@
         - Si ``current_calc`` termine par un opérateur -> Prend le calcul dans ``current_calc`` et le résout avec la valeur de ``input_zone``, affiche le calcul sous la forme ``'ancien current_calc' 'opérateur' 'dernier nombre inséré' '='`` dans ``current_calc`` et le résultat dans ``input_zone``
         > ex: si on a ``a +`` dans ``current_calc`` et ``b`` dans ``input_zone``, on obtient alors ``a + b =`` dans ``current_calc`` et ``c`` dans ``input_zone``
 
-        - Si ``current_calc`` termine par ``=`` (ç'est à dire qu'on vient de résoudre un calcul et qu'on a donc un résultat à l'écran) appuyer à nouveau sur = passe la valeur de résultat dans le calcul et le résout à nouveau (fonctionnear surement avec une fonction récursive):
+        - Si ``current_calc`` termine par ``=`` (ç'est à dire qu'on vient de résoudre un calcul et qu'on a donc un résultat à l'écran avec la valeur ``result``) appuyer à nouveau sur = passe la valeur de résultat dans le calcul et le résout à nouveau (fonctionnear surement avec une fonction récursive):
         > ex: dans ``current_calc`` on a : ``a + b =`` et dans ``input_zone`` on a ``c``, si on exécute à nouveau ``=`` on calcule alors: ``c + b`` et affiche alors ``c + b =`` et ``d`` dans ``input_zone``
 
     + Si valeur = ``CE``
