@@ -70,15 +70,13 @@ const displayNumberInInputZone = currentUserInputValue => {
     let rawValue = inputZone.dataset.value + currentUserInputValue;
 
     if ( inputZone.dataset.type != "current" || (inputZone.dataset.value == "0" && !isFloatPoint(currentUserInputValue)) ){
+        if(inputZone.dataset.type == "result" && equalSignElement.innerText == "="){
+            erasePreviousCalculation();
+        }
+
         rawValue = currentUserInputValue;
         inputZone.dataset.type = "current";
 
-        if(inputZone.dataset.type == "result" && equalSignElement.innerText == "="){
-            previousNumberElement.innerText = "";
-            operatorSignElement.innerText = "";
-            latestNumberElement.innerText = "";
-            equalSignElement.innerText = "";
-        }
     }
 
     let displayValue = renderDisplayValue(rawValue);
