@@ -5,7 +5,7 @@
 ## Algorithme:
 1. Réglages de base: 
     - ✔️Valeur par défaut dans la calculatrice: ``0`` 
-    - ✔️``input_zone`` correspond au bas de l'écran d'affichage et sert à afficher soit le nombre tapé actuellement par l'utilisateur, soit le résultat du précédent calcul, il est définit par un id (``input_zone``) et un attribut ``data-type`` égal soit à ``current`` si il s'agit du nombre tapé, soit à ``result`` si c'est le résultat d'une opération, ``temporary`` si c'est un nombre en attente (ex: quand on vient d'entrer un opérateur le nombre tapé précedemment reste dans l'``inputZone`` mais doit être écrasé par un éventuel nouveau nombre) , ou ``error``, s'il y a une erreur, il possède un attribut ``data-value`` pour afficher la valeur réelle du champ (différente de la valeur visuelle, ex: valeur visuelle ``5²`` valeur réelle ``25`` ) 
+    - ✔️``input_zone`` correspond au bas de l'écran d'affichage et sert à afficher soit le nombre tapé actuellement par l'utilisateur, soit le résultat du précédent calcul, il est définit par un id (``input_zone``) et un attribut ``data-type`` égal soit à ``current`` si il s'agit du nombre tapé, soit à ``result`` si c'est le résultat d'une opération, ``temporary`` si c'est un nombre en attente (ex: quand on vient d'entrer un opérateur le nombre tapé précedemment reste dans l'``inputZone`` mais doit être écrasé par un éventuel nouveau nombre, ou si c'est le résultat temporaire d'un opérateur complexe) , ou ``error``, s'il y a une erreur, il possède un attribut ``data-value`` pour afficher la valeur réelle du champ (différente de la valeur visuelle, ex: valeur visuelle ``5²`` valeur réelle ``25`` ) 
     - ✔️``current_calc`` correspond au haut de l'écran d'affichage et sert à afficher le calcul en cours 
 2. Récupérer:
     - ✔️le click de la souris sur une touche -> déterminer la valeur de cette touche (data-value du bouton) 
@@ -64,7 +64,7 @@ Ces éléments seront considérés comme opérateurs complexes
 + Si valeur = ``1/x``:
     - On réalise l'inverse du nombre dans ``input_zone``:
     > ex: on a ``a +`` dans ``current_calc`` et ``b`` dans ``input_zone``, l'utilisateur presse ``1/x`` on va donc faire et afficher ``a + 1/b`` (sans ``=``) dans : ``current_calc`` et le résultat de ``1/b`` dans ``input_zone`` (ou ``1/b`` en affichage visuel et le résultat de ``1/b`` en data-value), il faut alors cliquer sur ``=`` pour avoir le résultat 
-    - Il faut ajouter un attribut ``data-nan`` pour empêcher l'ajout de chiffres au contenu de ``input_zone``
+    - Il faut ajouter un attribut ``data-type=temporary`` pour empêcher l'ajout de chiffres au contenu de ``input_zone``
 
 + Si valeur = ``x²``:
     - On réalise le carré du nombre x dans ``input_zone``:

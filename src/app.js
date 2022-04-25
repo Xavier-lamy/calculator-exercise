@@ -86,21 +86,21 @@ const clearAll = () => {
 const clearLast = () => {
     if(inputZone.dataset.type == "result"){
         erasePreviousCalculation();
-        return;
     }
-
-    let valueToClear = inputZone.dataset.value;
-    let rawValue = "0";
-
-    if(valueToClear.length > 1){
-        console.log(valueToClear.length);
-        rawValue = valueToClear.replace(/.$/, '');        
+    else if(inputZone.dataset.type == "current"){
+        let valueToClear = inputZone.dataset.value;
+        let rawValue = "0";
+    
+        if(valueToClear.length > 1){
+            console.log(valueToClear.length);
+            rawValue = valueToClear.replace(/.$/, '');        
+        }
+    
+        let displayValue = renderDisplayValue(rawValue);
+    
+        inputZone.dataset.value = rawValue;
+        inputZone.innerText = displayValue;
     }
-
-    let displayValue = renderDisplayValue(rawValue);
-
-    inputZone.dataset.value = rawValue;
-    inputZone.innerText = displayValue;
 }
 
 const displayNumberInInputZone = currentUserInputValue => {
@@ -214,11 +214,18 @@ const displayOperator = currentUserInputValue => {
         erasePreviousCalculation();
     }
     //Calculate previous number if needed
-    else if(previousNumberElement.innerText.length != 0 && inputZone.dataset.type == "current"){
-        latestNumberElement.dataset.value = rawValue;
+    else if(previousNumberElement.innerText.length != 0){
+        if(inputZone.dataset.type == "current"){
+            latestNumberElement.dataset.value = rawValue;
+        }
+        else if(inputZone.dataset.type == "temporary" && latestNumberElement.innerText.length != 0){
+            latestNumberElement.innerText = "";
+            latestNumberElement.dataset.value = "";
+        }
         rawValue = calculate();
         rawValueIsCalculated = true;
     }
+    
 
     let displayValue = renderCurrentCalcDisplayValue(rawValue.toString());
 
@@ -252,7 +259,37 @@ const switchSign = () => {
 }
 
 const displayComplexOperator = currentUserInputValue => {
-    //Need to continue there
+    let x = inputZone.dataset.value;
+    let currentCalcDisplayValue = ""; 
+    let result = 0;
+
+    if(currentUserInputValue === "1/x"){
+        currentCalcDisplayValue = "1/" + x;
+        result = 1 / x;
+    }
+    else if(currentUserInputValue === "x²"){
+        currentCalcDisplayValue = x + "²";
+        result = Math.pow(x, 2);
+    }
+    else if(currentUserInputValue === "√x"){
+        currentCalcDisplayValue = "√" + x;
+        result = Math.sqrt(x);
+    }
+
+    if(previousNumberElement.innerText.length == 0){
+        previousNumberElement.dataset.value = result;
+        previousNumberElement.innerText = currentCalcDisplayValue;
+    }
+    else {
+        latestNumberElement.dataset.value = result;
+        latestNumberElement.innerText = currentCalcDisplayValue;
+    }
+
+    let displayValue = renderDisplayValue(result.toString());
+    inputZone.dataset.value = result;
+    inputZone.innerText = displayValue;
+    inputZone.dataset.type = "temporary";
+
 }
 
 const treatUserInput = (currentUserInputValue, currentUserInputClass) => {
