@@ -51,6 +51,20 @@ const renderCurrentCalcDisplayValue = rawValue => {
     return rawValue.replace('.', ',').replace(/,$/, '');
 }
 
+const erasePreviousCalculation = () => {
+    previousNumberElement.innerText = "";
+    previousNumberElement.dataset.value = "";
+
+    operatorSignElement.innerText = "";
+    operatorSignElement.dataset.value = "";
+
+    latestNumberElement.innerText = "";
+    latestNumberElement.dataset.value = "";
+    
+    equalSignElement.innerText = "";
+    equalSignElement.dataset.value = "";
+}        
+
 const displayNumberInInputZone = currentUserInputValue => {
 
     let rawValue = inputZone.dataset.value + currentUserInputValue;
@@ -77,13 +91,20 @@ const displayDecimalNumber = currentUserInputValue => {
     if(isDecimalNumber(inputZone.dataset.value)){
         return;
     }
+    //Erase previous calculation result
+    if(inputZone.dataset.type == "result"){
+        erasePreviousCalculation();
+        inputZone.dataset.type = "current";
+        inputZone.dataset.value = 0;
+        inputZone.innerText = 0;
+    }
     displayNumberInInputZone(currentUserInputValue);
 }
 
 const calculate = () => {
     let firstOperand = parseFloat(previousNumberElement.dataset.value);
     let operatorSign = operatorSignElement.dataset.value;
-    let secondOperand = parseFloat(inputZone.dataset.value);
+    let secondOperand = parseFloat(latestNumberElement.dataset.value);
 
     switch (operatorSign) {
         case "+":
@@ -103,11 +124,51 @@ const calculate = () => {
     }
 }
 
+const displayEqualSign = currentUserInputValue => {
+
+    let rawValue = inputZone.dataset.value;
+    let displayValue = renderCurrentCalcDisplayValue(rawValue.toString());
+
+    if(equalSignElement.innerText.length == 0) {
+        latestNumberElement.dataset.value = rawValue;
+        latestNumberElement.innerText = displayValue;
+    }
+
+    if(previousNumberElement.innerText.length == 0){
+        inputZone.dataset.value = rawValue;
+        inputZone.innerText = displayValue;
+    }
+    else if(operatorSignElement.innerText.length != 0) {
+        if(equalSignElement.innerText.length != 0) {
+            previousNumberElement.dataset.value = rawValue;
+            previousNumberElement.innerText = displayValue;
+        }
+
+        let rawResult = calculate();
+        let displayResult = renderDisplayValue(rawResult.toString());
+
+        inputZone.dataset.value = rawResult;
+        inputZone.innerText = displayResult;
+    }
+
+    equalSignElement.dataset.value = currentUserInputValue;
+    equalSignElement.innerText = currentUserInputValue;
+    inputZone.dataset.type = "result";
+
+}
+
 const displayOperator = currentUserInputValue => {
+
     let rawValue = inputZone.dataset.value;
     let rawValueIsCalculated = false;
-    
-    if(previousNumberElement.innerText.length != 0 && inputZone.dataset.type == "current"){
+
+    //Erase previous calculation
+    if(inputZone.dataset.type == "result" && equalSignElement.innerText == "="){
+        erasePreviousCalculation();
+    }
+    //Calculate previous number if needed
+    else if(previousNumberElement.innerText.length != 0 && inputZone.dataset.type == "current"){
+        latestNumberElement.dataset.value = rawValue;
         rawValue = calculate();
         rawValueIsCalculated = true;
     }
@@ -141,6 +202,10 @@ const treatUserInput = (currentUserInputValue, currentUserInputClass) => {
     if(isOperator(currentUserInputValue) && currentUserInputClass === "operator"){
         displayOperator(currentUserInputValue);
     }
+
+    if(isEqualSign(currentUserInputValue) && currentUserInputClass === "equal"){
+        displayEqualSign(currentUserInputValue);
+    }
 }
 
 //Main script
@@ -168,7 +233,7 @@ try {
         }
         else if(isEqualSign(event.key)){
             currentUserInputValue = "=";
-            currentUserInputClass = "equal_sign";
+            currentUserInputClass = "equal";
         }
         else if(isComplexOperator(event.key)){
             currentUserInputValue = event.key;

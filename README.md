@@ -33,15 +33,17 @@
 
         - ✔️Si ``current_calc`` termine par un opérateur(``+ - * /``) -> On change cet opérateur par le nouveau pressé
 
-        - Si ``current_calc`` termine par ``=`` -> on vient de faire un calcul, on passe alors la valeur de ``input_zone`` dans calcul en cours avec l'opérateur
+        - ✔️Si ``current_calc`` termine par ``=`` -> on vient de faire un calcul, on passe alors la valeur de ``input_zone`` dans calcul en cours avec l'opérateur
 
         - Si ``current_calc`` a un calcul non résolu (ex: le système de pourcentage peut laisser un calcul de type ``a + (b% de a)`` et ``(b% de a)`` dans ``input_zone``,  on résout alors le calcul de ``current_calc`` et on affiche ``c +`` dans ``current_calc`` et le résultat ``c`` dans ``input_zone``)
 
     + Si valeur = ``=``:
-        - Si ``current_calc`` termine par un opérateur -> Prend le calcul dans ``current_calc`` et le résout avec la valeur de ``input_zone``, affiche le calcul sous la forme ``'ancien current_calc' 'opérateur' 'dernier nombre inséré' '='`` dans ``current_calc`` et le résultat dans ``input_zone``
+        - ✔️Si ``current_calc`` est vide -> le résultat est la valeur d'input
+        > Exemple: si on a juste tapé 5 dans ``input_zone`` et qu'on entre ``=`` on affiche alors ``5 =`` dans ``current_calc`` et ``5`` dans ``input_zone`` avec ``result`` en data-type
+        - ✔️Si ``current_calc`` termine par un opérateur -> Prend le calcul dans ``current_calc`` et le résout avec la valeur de ``input_zone``, affiche le calcul sous la forme ``'ancien current_calc' 'opérateur' 'dernier nombre inséré' '='`` dans ``current_calc`` et le résultat dans ``input_zone``
         > ex: si on a ``a +`` dans ``current_calc`` et ``b`` dans ``input_zone``, on obtient alors ``a + b =`` dans ``current_calc`` et ``c`` dans ``input_zone``
 
-        - Si ``current_calc`` termine par ``=`` (ç'est à dire qu'on vient de résoudre un calcul et qu'on a donc un résultat à l'écran avec la valeur ``result``) appuyer à nouveau sur = passe la valeur de résultat dans le calcul et le résout à nouveau (fonctionnear surement avec une fonction récursive):
+        - ✔️Si ``current_calc`` termine par ``=`` (ç'est à dire qu'on vient de résoudre un calcul et qu'on a donc un résultat à l'écran avec la valeur ``result``) appuyer à nouveau sur = passe la valeur de résultat dans le calcul et le résout à nouveau (fonctionnear surement avec une fonction récursive):
         > ex: dans ``current_calc`` on a : ``a + b =`` et dans ``input_zone`` on a ``c``, si on exécute à nouveau ``=`` on calcule alors: ``c + b`` et affiche alors ``c + b =`` et ``d`` dans ``input_zone``
 
     + Si valeur = ``CE``
