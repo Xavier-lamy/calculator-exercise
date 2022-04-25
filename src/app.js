@@ -115,6 +115,12 @@ const calculate = () => {
             return multiplication(firstOperand, secondOperand);
 
         case "/":
+            if(secondOperand == 0){
+                inputZone.textContent = "GO BACK TO SCHOOL";
+                inputZone.dataset.type = "error";
+                erasePreviousCalculation();
+                break;
+            }
             return division(firstOperand, secondOperand);
     
         default:
