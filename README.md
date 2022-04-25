@@ -64,7 +64,7 @@ Ces éléments seront considérés comme opérateurs complexes
 + Si valeur = ``1/x``:
     - On réalise l'inverse du nombre dans ``input_zone``:
     > ex: on a ``a +`` dans ``current_calc`` et ``b`` dans ``input_zone``, l'utilisateur presse ``1/x`` on va donc faire et afficher ``a + 1/b`` (sans ``=``) dans : ``current_calc`` et le résultat de ``1/b`` dans ``input_zone`` (ou ``1/b`` en affichage visuel et le résultat de ``1/b`` en data-value), il faut alors cliquer sur ``=`` pour avoir le résultat 
-    - Il faut ajouter un attribut data pour empêcher l'ajout de chiffres au contenu de ``input_zone``
+    - Il faut ajouter un attribut ``data-nan`` pour empêcher l'ajout de chiffres au contenu de ``input_zone``
 
 + Si valeur = ``x²``:
     - On réalise le carré du nombre x dans ``input_zone``:
@@ -75,7 +75,7 @@ Ces éléments seront considérés comme opérateurs complexes
     > ex: on a ``a +`` dans ``current_calc`` et ``b`` dans ``input_zone``, l'utilisateur presse ``√x`` on va donc faire et afficher ``a + √b`` (sans ``=``) dans : ``current_calc`` et le résultat de ``√b`` dans ``input_zone`` (ou ``√b`` en affichage visuel et le résultat de ``√b`` en data-value), il faut alors cliquer sur ``=`` pour avoir le résultat
 
 ### Erreurs et détails à prendre en compte:
-- Division par zéro -> renvoie un message d'erreur
+- Division par zéro -> renvoie un message d'erreur✔️
 - Nombre en entrée supérieur à 16 caractères -> ne peut pas écrire plus ✔️
 - Nombre en sortie supérieur à 16 caractères -> est transformé en puissance de 10 pour l'affichage: exemple 11 000 000 000 000 000 est transformé en 1.1e+16 (1.1*10^16)
 - Résultat trop grand ou trop petit (limite à 9,999999999999488e+8191 et 9,999999999999488e-8191) -> message de dépassement de capacité, à voir si on met une limite en fonction des capacités de js , ou une limite manuelle

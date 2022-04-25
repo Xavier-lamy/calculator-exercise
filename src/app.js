@@ -88,7 +88,7 @@ const clearLast = () => {
         erasePreviousCalculation();
         return;
     }
-    
+
     let valueToClear = inputZone.dataset.value;
     let rawValue = "0";
 
@@ -105,7 +105,12 @@ const clearLast = () => {
 
 const displayNumberInInputZone = currentUserInputValue => {
 
-    let rawValue = inputZone.dataset.value + currentUserInputValue;
+    let rawValue = inputZone.dataset.value;
+
+    //Prevent user from inputing more digits than max allowed size
+    if(inputZone.dataset.value.length < maxDigitSize){
+        rawValue += currentUserInputValue;
+    }
 
     if ( inputZone.dataset.type != "current" || (inputZone.dataset.value == "0" && !isFloatPoint(currentUserInputValue)) ){
         if(inputZone.dataset.type == "result" && equalSignElement.innerText == "="){
@@ -233,11 +238,11 @@ const displayOperator = currentUserInputValue => {
 
 const treatUserInput = (currentUserInputValue, currentUserInputClass) => {
     /* console.log(currentUserInputValue + currentUserInputClass); */
-    if(isDigit(currentUserInputValue) && currentUserInputClass === "numeric" && inputZone.dataset.value.length < maxDigitSize) {
+    if(isDigit(currentUserInputValue) && currentUserInputClass === "numeric") {
         displayNumberInInputZone(currentUserInputValue);
     }
 
-    if(isFloatPoint(currentUserInputValue) && currentUserInputClass === "float_point" && inputZone.dataset.value.length < maxDigitSize) {
+    if(isFloatPoint(currentUserInputValue) && currentUserInputClass === "float_point") {
         displayDecimalNumber(currentUserInputValue);
     }
 
