@@ -236,25 +236,47 @@ const displayOperator = currentUserInputValue => {
     }
 }
 
+const switchSign = () => {
+    let rawValue = inputZone.dataset.value;
+    if(rawValue < 0){
+        console.log(rawValue);
+        rawValue = rawValue.replace(/^-/, ""); 
+    }
+    else if(rawValue > 0){
+        rawValue = "-" + rawValue;
+    }
+    let displayValue = renderDisplayValue(rawValue);
+
+    inputZone.dataset.value = rawValue;
+    inputZone.innerText = displayValue;
+}
+
+const displayComplexOperator = currentUserInputValue => {
+    //Need to continue there
+}
+
 const treatUserInput = (currentUserInputValue, currentUserInputClass) => {
-    /* console.log(currentUserInputValue + currentUserInputClass); */
     if(isDigit(currentUserInputValue) && currentUserInputClass === "numeric") {
         displayNumberInInputZone(currentUserInputValue);
     }
 
-    if(isFloatPoint(currentUserInputValue) && currentUserInputClass === "float_point") {
+    else if(isFloatPoint(currentUserInputValue) && currentUserInputClass === "float_point") {
         displayDecimalNumber(currentUserInputValue);
     }
 
-    if(isOperator(currentUserInputValue) && currentUserInputClass === "operator"){
+    else if(isOperator(currentUserInputValue) && currentUserInputClass === "operator"){
         displayOperator(currentUserInputValue);
     }
 
-    if(isEqualSign(currentUserInputValue) && currentUserInputClass === "equal"){
+    else if(isEqualSign(currentUserInputValue) && currentUserInputClass === "equal"){
         displayEqualSign(currentUserInputValue);
     }
 
-    if(currentUserInputClass === "delete_button"){
+    else if(currentUserInputClass === "switch_sign"){
+        switchSign();
+    }
+
+    else if(currentUserInputClass === "delete_button"){
         switch (currentUserInputValue) {
             case "clear_error":
                 clearError();
@@ -266,6 +288,10 @@ const treatUserInput = (currentUserInputValue, currentUserInputClass) => {
                 clearLast();
                 break;
         }
+    }
+    
+    else if(currentUserInputClass === "complex_operator"){
+        displayComplexOperator(currentUserInputValue);
     }
 }
 

@@ -19,8 +19,8 @@
     + Si valeur = ``,`` :
         - ✔️ajouter une virgule au nombre pour en faire un nombre décimal 
     + Si valeur = ``+/-``:
-        - Si valeur affichée dans zone affichage ``input_zone`` est ``positive`` -> la rendre négative
-        - Si valeur affichée dans zone affichage ``input_zone`` est ``négative`` -> la rendre positive
+        - ✔️Si valeur affichée dans zone affichage ``input_zone`` est ``positive`` -> la rendre négative
+        - ✔️Si valeur affichée dans zone affichage ``input_zone`` est ``négative`` -> la rendre positive
 
     + Si type valeur = opérateur(``+ - * /``): 
         - ✔️Si entrée précédente = ``,`` (çàd pas de chiffre après la virgule, ne pas comptabiliser la virgule, ``63,`` compte comme un ``63``)
