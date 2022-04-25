@@ -63,7 +63,45 @@ const erasePreviousCalculation = () => {
     
     equalSignElement.innerText = "";
     equalSignElement.dataset.value = "";
-}        
+}
+
+const clearInputZone = () => {
+    inputZone.innerText = 0;
+    inputZone.dataset.value = 0;
+    inputZone.dataset.type = "current";
+}
+
+const clearError = () => {
+    if(inputZone.dataset.type == "result"){
+        erasePreviousCalculation();
+    }
+    clearInputZone();
+}
+
+const clearAll = () => {
+    erasePreviousCalculation();
+    clearInputZone();
+}
+
+const clearLast = () => {
+    if(inputZone.dataset.type == "result"){
+        erasePreviousCalculation();
+        return;
+    }
+    
+    let valueToClear = inputZone.dataset.value;
+    let rawValue = "0";
+
+    if(valueToClear.length > 1){
+        console.log(valueToClear.length);
+        rawValue = valueToClear.replace(/.$/, '');        
+    }
+
+    let displayValue = renderDisplayValue(rawValue);
+
+    inputZone.dataset.value = rawValue;
+    inputZone.innerText = displayValue;
+}
 
 const displayNumberInInputZone = currentUserInputValue => {
 
@@ -209,6 +247,20 @@ const treatUserInput = (currentUserInputValue, currentUserInputClass) => {
 
     if(isEqualSign(currentUserInputValue) && currentUserInputClass === "equal"){
         displayEqualSign(currentUserInputValue);
+    }
+
+    if(currentUserInputClass === "delete_button"){
+        switch (currentUserInputValue) {
+            case "clear_error":
+                clearError();
+                break;
+            case "clear_all":
+                clearAll();
+                break;
+            case "clear_last":
+                clearLast();
+                break;
+        }
     }
 }
 

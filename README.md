@@ -47,12 +47,12 @@
         > ex: dans ``current_calc`` on a : ``a + b =`` et dans ``input_zone`` on a ``c``, si on exécute à nouveau ``=`` on calcule alors: ``c + b`` et affiche alors ``c + b =`` et ``d`` dans ``input_zone``
 
     + Si valeur = ``CE``
-        - Si ``input_zone`` = ``current`` -> On efface le nombre contenu dans ``input_zone`` (on le passe à 0)
-        - Si ``input_zone`` = ``result`` -> on met ``input_zone`` à 0 et on efface le calcul dans ``current_calc``
+        - ✔️Si ``input_zone`` = ``current`` -> On efface le nombre contenu dans ``input_zone`` (on le passe à 0)
+        - ✔️Si ``input_zone`` = ``result`` -> on met ``input_zone`` à 0 et on efface le calcul dans ``current_calc``
     + Si valeur = ``C``
-        - On reset tout
+        - ✔️On reset tout
     + Si valeur = ``DEL``
-        - On efface le dernier caractère entré (chiffre ou virgule)
+        - ✔️On efface le dernier caractère entré (chiffre ou virgule)
     
 ## Calculs avancés:
 Ces éléments seront considérés comme opérateurs complexes 
