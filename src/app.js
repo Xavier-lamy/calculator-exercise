@@ -176,21 +176,43 @@ const displayEqualSign = currentUserInputValue => {
     let rawValue = inputZone.dataset.value;
     let displayValue = renderCurrentCalcDisplayValue(rawValue.toString());
 
-    if(equalSignElement.innerText.length == 0) {
-        latestNumberElement.dataset.value = rawValue;
-        latestNumberElement.innerText = displayValue;
-    }
-
+    //If current_calc is empty:
     if(previousNumberElement.innerText.length == 0){
+        previousNumberElement.dataset.value = rawValue;
+        previousNumberElement.innerText = displayValue;
         inputZone.dataset.value = rawValue;
         inputZone.innerText = displayValue;
     }
-    else if(operatorSignElement.innerText.length != 0) {
-        if(equalSignElement.innerText.length != 0) {
-            previousNumberElement.dataset.value = rawValue;
-            previousNumberElement.innerText = displayValue;
-        }
+    //If only previousNumber is not empty
+    else if(operatorSignElement.innerText.length == 0){
+        inputZone.dataset.value = rawValue;
+        inputZone.innerText = displayValue;
+    }
+    //if current_calc end by an operator:
+    else if(operatorSignElement.innerText.length != 0 && latestNumberElement.innerText.length == 0) {
 
+        latestNumberElement.dataset.value = rawValue;
+        latestNumberElement.innerText = displayValue;
+
+        let rawResult = calculate();
+        let displayResult = renderDisplayValue(rawResult.toString());
+
+        inputZone.dataset.value = rawResult;
+        inputZone.innerText = displayResult;
+    }
+    //if current_calc end by =:
+    else if(equalSignElement.innerText.length != 0){
+        previousNumberElement.dataset.value = rawValue;
+        previousNumberElement.innerText = displayValue;
+
+        let rawResult = calculate();
+        let displayResult = renderDisplayValue(rawResult.toString());
+
+        inputZone.dataset.value = rawResult;
+        inputZone.innerText = displayResult;
+    }
+    //If has a temporary result and don't end by =:
+    else if(latestNumberElement.innerText.length != 0 && equalSignElement.innerText.length == 0){
         let rawResult = calculate();
         let displayResult = renderDisplayValue(rawResult.toString());
 
@@ -218,15 +240,19 @@ const displayOperator = currentUserInputValue => {
         if(inputZone.dataset.type == "current"){
             latestNumberElement.dataset.value = rawValue;
         }
-        else if(inputZone.dataset.type == "temporary" && latestNumberElement.innerText.length != 0){
-            latestNumberElement.innerText = "";
-            latestNumberElement.dataset.value = "";
+
+        if(latestNumberElement.dataset.value.length != 0){
+            rawValue = calculate();
+            rawValueIsCalculated = true;
+            if(inputZone.dataset.type == "temporary"){
+                console.log('case2');
+                latestNumberElement.innerText = "";
+                latestNumberElement.dataset.value = "";
+            }
         }
-        rawValue = calculate();
-        rawValueIsCalculated = true;
+
     }
     
-
     let displayValue = renderCurrentCalcDisplayValue(rawValue.toString());
 
     previousNumberElement.dataset.value = rawValue;
@@ -264,6 +290,12 @@ const displayComplexOperator = currentUserInputValue => {
     let result = 0;
 
     if(currentUserInputValue === "1/x"){
+        if(x == 0){
+            inputZone.textContent = "CANNOT DIVIDE BY 0";
+            inputZone.dataset.type = "error";
+            erasePreviousCalculation();
+            return;
+        }
         currentCalcDisplayValue = "1/" + x;
         result = 1 / x;
     }

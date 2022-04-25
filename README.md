@@ -14,7 +14,7 @@
     + Si type valeur = chiffre:
         - ✔️Si pas encore de chiffre (= 0) -> Afficher le contenu de cette touche sur l'écran dans la zone affichage ``input_zone`` 
         - ✔️Si chiffre déjà présent -> créer un nombre à partir du ``chiffre précédent`` et du ``chiffre entré`` 
-        - Si valeur déjà présente n'est pas un chiffre (contient l'attribut ``data-nan``, c'est à dire le résultat de 1/x, x², √x ou x%) on efface cette donnée déjà présente pour la remplacer par le nombre (qui est de toute façon déjà présent dans ``current_calc``)
+        - ✔️Si valeur déjà présente n'est pas un chiffre (exemple quand il contient l'attribut ``temporary``, pour le résultat de 1/x, x², √x ou x%) on efface cette donnée déjà présente pour la remplacer par le nombre (qui est de toute façon déjà présent dans ``current_calc``)
         - ✔️Si on a déjà un résultat (``input_zone`` = ``result`` et ``current_calc`` termine par ``=``) alors on efface complètement ``current_calc`` et on affiche le nouveau nombre dans ``input_zone`` avec valeur ``current``
     + Si valeur = ``,`` :
         - ✔️ajouter une virgule au nombre pour en faire un nombre décimal 
@@ -35,8 +35,6 @@
 
         - ✔️Si ``current_calc`` termine par ``=`` -> on vient de faire un calcul, on passe alors la valeur de ``input_zone`` dans calcul en cours avec l'opérateur
 
-        - Si ``current_calc`` a un calcul non résolu (ex: le système de pourcentage peut laisser un calcul de type ``a + (b% de a)`` et ``(b% de a)`` dans ``input_zone``,  on résout alors le calcul de ``current_calc`` et on affiche ``c +`` dans ``current_calc`` et le résultat ``c`` dans ``input_zone``)
-
     + Si valeur = ``=``:
         - ✔️Si ``current_calc`` est vide -> le résultat est la valeur d'input
         > Exemple: si on a juste tapé 5 dans ``input_zone`` et qu'on entre ``=`` on affiche alors ``5 =`` dans ``current_calc`` et ``5`` dans ``input_zone`` avec ``result`` en data-type
@@ -45,6 +43,7 @@
 
         - ✔️Si ``current_calc`` termine par ``=`` (ç'est à dire qu'on vient de résoudre un calcul et qu'on a donc un résultat à l'écran avec la valeur ``result``) appuyer à nouveau sur = passe la valeur de résultat dans le calcul et le résout à nouveau (fonctionnear surement avec une fonction récursive):
         > ex: dans ``current_calc`` on a : ``a + b =`` et dans ``input_zone`` on a ``c``, si on exécute à nouveau ``=`` on calcule alors: ``c + b`` et affiche alors ``c + b =`` et ``d`` dans ``input_zone``
+        - Si ``current_calc`` a un calcul non résolu (ex: le système de pourcentage peut laisser un calcul de type ``a + (b% de a)`` et ``(b% de a)`` dans ``input_zone``,  on résout alors le calcul de ``current_calc`` et on affiche ``c +`` dans ``current_calc`` et le résultat ``c`` dans ``input_zone``)
 
     + Si valeur = ``CE``
         - ✔️Si ``input_zone`` = ``current`` -> On efface le nombre contenu dans ``input_zone`` (on le passe à 0)
