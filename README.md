@@ -15,7 +15,7 @@
         - ✔️Si pas encore de chiffre (= 0) -> Afficher le contenu de cette touche sur l'écran dans la zone affichage ``input_zone`` 
         - ✔️Si chiffre déjà présent -> créer un nombre à partir du ``chiffre précédent`` et du ``chiffre entré`` 
         - Si valeur déjà présente n'est pas un chiffre (contient l'attribut ``data-nan``, c'est à dire le résultat de 1/x, x², √x ou x%) on efface cette donnée déjà présente pour la remplacer par le nombre (qui est de toute façon déjà présent dans ``current_calc``)
-        - ✔️Si on a déjà un résultat (``input_zone`` = ``result`` et ``current_calc`` termine par ``=``) alors on efface complètement ``current_calc`` et on affiche le nouveau nombre dans ``input_zone`` avec valeur ``content``
+        - ✔️Si on a déjà un résultat (``input_zone`` = ``result`` et ``current_calc`` termine par ``=``) alors on efface complètement ``current_calc`` et on affiche le nouveau nombre dans ``input_zone`` avec valeur ``current``
     + Si valeur = ``,`` :
         - ✔️ajouter une virgule au nombre pour en faire un nombre décimal 
     + Si valeur = ``+/-``:
@@ -82,7 +82,7 @@ Ces éléments seront considérés comme opérateurs complexes
 - Si une erreur non prévue par les éléments ci-dessus -> écrire ``ERROR`` dans ``input_zone`` et mettre le ``data-type=error`` ✔️
 
 ### Exemple
-+ L'utilisateur a déjà taper ``6 +`` il est en train d'entrer ``5``
++ L'utilisateur a déjà tapé ``6 +`` il est en train d'entrer ``5``
 ```html
 <div class="bg-gray-600 col-span-4 h-24 text-white p-2 flex flex-col justify-between items-end">
     <span id="current_calc">

@@ -42,7 +42,11 @@ const renderDisplayValue = rawValue => {
     return rawValue.replace('.', ',');
 }
 
-/** */
+/** 
+ * 
+ * @param {string} rawValue 
+ * @returns
+ */
 const renderCurrentCalcDisplayValue = rawValue => {
     return rawValue.replace('.', ',').replace(/,$/, '');
 }
@@ -51,16 +55,16 @@ const displayNumberInInputZone = currentUserInputValue => {
 
     let rawValue = inputZone.dataset.value + currentUserInputValue;
 
-    if (inputZone.dataset.type != "current" || (inputZone.dataset.value == "0" && !isFloatPoint(currentUserInputValue))){
+    if ( inputZone.dataset.type != "current" || (inputZone.dataset.value == "0" && !isFloatPoint(currentUserInputValue)) ){
         rawValue = currentUserInputValue;
         inputZone.dataset.type = "current";
-    }
 
-    if(inputZone.dataset.type == "current"){
-        previousNumberElement.innerText = "";
-        operatorSignElement.innerText = "";
-        latestNumberElement.innerText = "";
-        equalSignElement.innerText = "";
+        if(inputZone.dataset.type == "result" && equalSignElement.innerText == "="){
+            previousNumberElement.innerText = "";
+            operatorSignElement.innerText = "";
+            latestNumberElement.innerText = "";
+            equalSignElement.innerText = "";
+        }
     }
 
     let displayValue = renderDisplayValue(rawValue);
@@ -101,9 +105,11 @@ const calculate = () => {
 
 const displayOperator = currentUserInputValue => {
     let rawValue = inputZone.dataset.value;
+    let rawValueIsCalculated = false;
     
-    if(previousNumberElement.innerText.length != 0 && inputZone.dataset.type != "temporary"){
+    if(previousNumberElement.innerText.length != 0 && inputZone.dataset.type == "current"){
         rawValue = calculate();
+        rawValueIsCalculated = true;
     }
 
     let displayValue = renderCurrentCalcDisplayValue(rawValue.toString());
@@ -114,15 +120,21 @@ const displayOperator = currentUserInputValue => {
     inputZone.dataset.type = "temporary";
     operatorSignElement.dataset.value = currentUserInputValue;
     operatorSignElement.innerText = currentUserInputValue;
+
+    if(rawValueIsCalculated){
+        inputZone.dataset.type = "result";
+        inputZone.dataset.value = rawValue;
+        inputZone.innerText = displayValue;
+    }
 }
 
 const treatUserInput = (currentUserInputValue, currentUserInputClass) => {
     /* console.log(currentUserInputValue + currentUserInputClass); */
-    if(isDigit(currentUserInputValue) && currentUserInputClass === "numeric" && inputZone.dataset.value.length < 16) {
+    if(isDigit(currentUserInputValue) && currentUserInputClass === "numeric" && inputZone.dataset.value.length < maxDigitSize) {
         displayNumberInInputZone(currentUserInputValue);
     }
 
-    if(isFloatPoint(currentUserInputValue) && currentUserInputClass === "float_point" && inputZone.dataset.value.length < 16) {
+    if(isFloatPoint(currentUserInputValue) && currentUserInputClass === "float_point" && inputZone.dataset.value.length < maxDigitSize) {
         displayDecimalNumber(currentUserInputValue);
     }
 
