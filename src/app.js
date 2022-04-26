@@ -51,6 +51,14 @@ const renderCurrentCalcDisplayValue = rawValue => {
     return rawValue.replace('.', ',').replace(/,$/, '');
 }
 
+const innerIsEmpty = element => {
+    return element.innerText.length == 0;
+}
+
+const valueIsEmpty = element => {
+    return element.dataset.value.length == 0;
+}
+
 const erasePreviousCalculation = () => {
     previousNumberElement.innerText = "";
     previousNumberElement.dataset.value = "";
@@ -245,7 +253,6 @@ const displayOperator = currentUserInputValue => {
             rawValue = calculate();
             rawValueIsCalculated = true;
             if(inputZone.dataset.type == "temporary"){
-                console.log('case2');
                 latestNumberElement.innerText = "";
                 latestNumberElement.dataset.value = "";
             }
@@ -308,13 +315,19 @@ const displayComplexOperator = currentUserInputValue => {
         result = Math.sqrt(x);
     }
 
-    if(previousNumberElement.innerText.length == 0){
+    if(previousNumberElement.innerText.length == 0 && latestNumberElement.innerText.length == 0){
         previousNumberElement.dataset.value = result;
         previousNumberElement.innerText = currentCalcDisplayValue;
     }
-    else {
-        latestNumberElement.dataset.value = result;
-        latestNumberElement.innerText = currentCalcDisplayValue;
+    else if(previousNumberElement.innerText.length != 0) { 
+        if(operatorSignElement.innerText.length != 0){
+            latestNumberElement.dataset.value = result;
+            latestNumberElement.innerText = currentCalcDisplayValue;
+        }
+        else if(operatorSignElement.innerText.length == 0){
+            previousNumberElement.dataset.value = result;
+            previousNumberElement.innerText = currentCalcDisplayValue;            
+        }
     }
 
     let displayValue = renderDisplayValue(result.toString());
