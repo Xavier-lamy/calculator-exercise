@@ -3,26 +3,26 @@
 ## Installation de webpack
 
 ## Algorithme:
-1. Réglages de base: 
+1. ✔️Réglages de base: 
     - ✔️Valeur par défaut dans la calculatrice: ``0`` 
     - ✔️``input_zone`` correspond au bas de l'écran d'affichage et sert à afficher soit le nombre tapé actuellement par l'utilisateur, soit le résultat du précédent calcul, il est définit par un id (``input_zone``) et un attribut ``data-type`` égal soit à ``current`` si il s'agit du nombre tapé, soit à ``result`` si c'est le résultat d'une opération, ``temporary`` si c'est un nombre en attente (ex: quand on vient d'entrer un opérateur le nombre tapé précedemment reste dans l'``inputZone`` mais doit être écrasé par un éventuel nouveau nombre, ou si c'est le résultat temporaire d'un opérateur complexe) , ou ``error``, s'il y a une erreur, il possède un attribut ``data-value`` pour afficher la valeur réelle du champ (différente de la valeur visuelle, ex: valeur visuelle ``5²`` valeur réelle ``25`` ) 
     - ✔️``current_calc`` correspond au haut de l'écran d'affichage et sert à afficher le calcul en cours 
-2. Récupérer:
+2. ✔️Récupérer:
     - ✔️le click de la souris sur une touche -> déterminer la valeur de cette touche (data-value du bouton) 
     - ✔️ou la pression d'une touche du clavier -> déterminer la valeur de cette touche (valeur de la touche dans l'event) 
 3. valeur touche 
-    + Si type valeur = chiffre:
+    + ✔️Si type valeur = chiffre:
         - ✔️Si pas encore de chiffre (= 0) -> Afficher le contenu de cette touche sur l'écran dans la zone affichage ``input_zone`` 
         - ✔️Si chiffre déjà présent -> créer un nombre à partir du ``chiffre précédent`` et du ``chiffre entré`` 
         - ✔️Si valeur déjà présente n'est pas un chiffre (exemple quand il contient l'attribut ``temporary``, pour le résultat de 1/x, x², √x ou x%) on efface cette donnée déjà présente pour la remplacer par le nombre (qui est de toute façon déjà présent dans ``current_calc``)
         - ✔️Si on a déjà un résultat (``input_zone`` = ``result`` et ``current_calc`` termine par ``=``) alors on efface complètement ``current_calc`` et on affiche le nouveau nombre dans ``input_zone`` avec valeur ``current``
-    + Si valeur = ``,`` :
+    + ✔️Si valeur = ``,`` :
         - ✔️ajouter une virgule au nombre pour en faire un nombre décimal 
-    + Si valeur = ``+/-``:
+    + ✔️Si valeur = ``+/-``:
         - ✔️Si valeur affichée dans zone affichage ``input_zone`` est ``positive`` -> la rendre négative
         - ✔️Si valeur affichée dans zone affichage ``input_zone`` est ``négative`` -> la rendre positive
 
-    + Si type valeur = opérateur(``+ - * /``): 
+    + ✔️Si type valeur = opérateur(``+ - * /``): 
         - ✔️Si entrée précédente = ``,`` (çàd pas de chiffre après la virgule, ne pas comptabiliser la virgule, ``63,`` compte comme un ``63``)
 
         - ✔️Afficher le précedent nombre et l'opérateur de calcul dans la zone ``current_calc``, calculer si besoin le précédent nombre si on a déjà plusieurs **tours**,:
@@ -35,7 +35,7 @@
 
         - ✔️Si ``current_calc`` termine par ``=`` -> on vient de faire un calcul, on passe alors la valeur de ``input_zone`` dans calcul en cours avec l'opérateur
 
-    + Si valeur = ``=``:
+    + ✔️Si valeur = ``=``:
         - ✔️Si ``current_calc`` est vide -> le résultat est la valeur d'input
         > Exemple: si on a juste tapé 5 dans ``input_zone`` et qu'on entre ``=`` on affiche alors ``5 =`` dans ``current_calc`` et ``5`` dans ``input_zone`` avec ``result`` en data-type
         - ✔️Si ``current_calc`` termine par un opérateur -> Prend le calcul dans ``current_calc`` et le résout avec la valeur de ``input_zone``, affiche le calcul sous la forme ``'ancien current_calc' 'opérateur' 'dernier nombre inséré' '='`` dans ``current_calc`` et le résultat dans ``input_zone``
@@ -45,17 +45,17 @@
         > ex: dans ``current_calc`` on a : ``a + b =`` et dans ``input_zone`` on a ``c``, si on exécute à nouveau ``=`` on calcule alors: ``c + b`` et affiche alors ``c + b =`` et ``d`` dans ``input_zone``
         - ✔️Si ``current_calc`` a un calcul non résolu (ex: le système de pourcentage peut laisser un calcul de type ``a + (b% de a)`` et ``(b% de a)`` dans ``input_zone``,  on résout alors le calcul de ``current_calc`` et on affiche ``c +`` dans ``current_calc`` et le résultat ``c`` dans ``input_zone``)
 
-    + Si valeur = ``CE``
+    + ✔️Si valeur = ``CE``
         - ✔️Si ``input_zone`` = ``current`` -> On efface le nombre contenu dans ``input_zone`` (on le passe à 0)
         - ✔️Si ``input_zone`` = ``result`` -> on met ``input_zone`` à 0 et on efface le calcul dans ``current_calc``
-    + Si valeur = ``C``
+    + ✔️Si valeur = ``C``
         - ✔️On reset tout
-    + Si valeur = ``DEL``
+    + ✔️Si valeur = ``DEL``
         - ✔️On efface le dernier caractère entré (chiffre ou virgule)
     
 ## Calculs avancés:
 Ces éléments seront considérés comme opérateurs complexes 
-+ Si valeur = ``%``:
++ ✔️Si valeur = ``%``:
     - Si ``current_calc`` est vide ou = 0 -> afficher 0 dans ``current_calc`` et ``input_zone``
     - Si ``current_calc`` contient un calcul (ex: ``10 +``) , prendre la valeur du premier nombre de ce calcul et calculer le pourcentage choisi en fonction de ``input_zone``
     > ex: on a ``a +`` dans ``current_calc`` et ``b`` dans ``input_zone``, l'utilisateur presse ``%`` on va donc faire et afficher ``a + (b% de a)`` dans : ``current_calc`` et ``(b% de a)`` (ou ``b%`` en affichage visuel et ``(b% de a)`` en data-value) dans ``input_zone``
@@ -74,9 +74,9 @@ Ces éléments seront considérés comme opérateurs complexes
     > ex: on a ``a +`` dans ``current_calc`` et ``b`` dans ``input_zone``, l'utilisateur presse ``√x`` on va donc faire et afficher ``a + √b`` (sans ``=``) dans : ``current_calc`` et le résultat de ``√b`` dans ``input_zone`` (ou ``√b`` en affichage visuel et le résultat de ``√b`` en data-value), il faut alors cliquer sur ``=`` pour avoir le résultat
 
 ### Erreurs et détails à prendre en compte:
-- Division par zéro -> renvoie un message d'erreur✔️
-- Nombre en entrée supérieur à 16 caractères -> ne peut pas écrire plus ✔️
-- Nombre en sortie supérieur à 16 caractères -> est transformé en puissance de 10 pour l'affichage: exemple 11 000 000 000 000 000 est transformé en 1.1e+16 (1.1*10^16)
+- ✔️Division par zéro -> renvoie un message d'erreur
+- ✔️Nombre en entrée supérieur à 16 caractères -> ne peut pas écrire plus
+- ✔️Nombre en sortie supérieur à 16 caractères -> est transformé en puissance de 10 pour l'affichage: exemple 11 000 000 000 000 000 est transformé en 1.1e+16 (1.1*10^16) -> JS transforme déjà automatiquement en puissance de 10.
 - Résultat trop grand ou trop petit (limite à 9,999999999999488e+8191 et 9,999999999999488e-8191) -> message de dépassement de capacité, à voir si on met une limite en fonction des capacités de js , ou une limite manuelle
 - Les nombres à l'affichage doivent être séparés en paquet de 3 chiffres
 - Que se passe-t-il si une touche est pressé en même temps qu'une cliquée -> s'assurer que l'une soit prioritaire ✔️

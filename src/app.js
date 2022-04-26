@@ -39,6 +39,10 @@ let currentUserInputClass = '';
  * @returns 
  */
 const renderDisplayValue = rawValue => {
+    if(rawValue == "Infinity"){
+        return "OVERFLOW ERROR";
+    }
+
     return rawValue.replace('.', ',');
 }
 
@@ -48,7 +52,7 @@ const renderDisplayValue = rawValue => {
  * @returns
  */
 const renderCurrentCalcDisplayValue = rawValue => {
-    return rawValue.replace('.', ',').replace(/,$/, '');
+    return renderDisplayValue(rawValue).replace(/,$/, '');
 }
 
 /**
@@ -264,6 +268,8 @@ const displayOperator = currentUserInputValue => {
             if(inputZone.dataset.type == "temporary"){
                 latestNumberElement.innerText = "";
                 latestNumberElement.dataset.value = "";
+                equalSignElement.innerText = "";
+                equalSignElement.dataset.value = "";
             }
         }
 
@@ -307,7 +313,7 @@ const displayComplexOperator = currentUserInputValue => {
 
     if(currentUserInputValue === "1/x"){
         if(x == 0){
-            inputZone.textContent = "CANNOT DIVIDE BY 0";
+            inputZone.innerText = "CANNOT DIVIDE BY 0";
             inputZone.dataset.type = "error";
             erasePreviousCalculation();
             return;
@@ -443,6 +449,7 @@ try {
         }
         else {
             console.log(`Not a workable key: ${event.key}`);
+            return;
         }
         treatUserInput(currentUserInputValue, currentUserInputClass);
     });
