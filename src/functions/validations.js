@@ -20,6 +20,24 @@ const isComplexOperator = value => complexOperatorReg.test(value);
 const deleteButtonReg = new RegExp(/^Backspace|Delete|Escape|clear_(error|all|last)$/);
 const isDeleteButton = value => deleteButtonReg.test(value);
 
+/**
+ * 
+ * @param {HTMLElement} element 
+ * @return {boolean}  
+ */
+ const innerIsEmpty = element => {
+    return element.innerText.length == 0;
+}
+
+/**
+ * 
+ * @param {HTMLElement} element 
+ * @return {boolean}  
+ */
+const valueIsEmpty = element => {
+    return element.dataset.value.length == 0;
+}
+
 module.exports = {
     isDeleteButton,
     isComplexOperator,
@@ -28,4 +46,6 @@ module.exports = {
     isFloatPoint,
     isOperator,
     isDigit,
+    innerIsEmpty,
+    valueIsEmpty
 }

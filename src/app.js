@@ -10,7 +10,9 @@ import {
     isFloatPoint,
     isOperator,
     isDigit,
-} from './functions/regex.js';
+    innerIsEmpty,
+    valueIsEmpty
+} from './functions/validations.js';
 
 //Variables
 let inputZone = document.getElementById("input_zone");
@@ -53,24 +55,6 @@ const renderDisplayValue = rawValue => {
  */
 const renderCurrentCalcDisplayValue = rawValue => {
     return renderDisplayValue(rawValue).replace(/,$/, '');
-}
-
-/**
- * 
- * @param {HTMLElement} element 
- * @return {boolean}  
- */
-const innerIsEmpty = element => {
-    return element.innerText.length == 0;
-}
-
-/**
- * 
- * @param {HTMLElement} element 
- * @return {boolean}  
- */
-const valueIsEmpty = element => {
-    return element.dataset.value.length == 0;
 }
 
 const erasePreviousCalculation = () => {
