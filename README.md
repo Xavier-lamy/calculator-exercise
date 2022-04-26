@@ -78,7 +78,7 @@ Ces éléments seront considérés comme opérateurs complexes
 - ✔️Nombre en entrée supérieur à 16 caractères -> ne peut pas écrire plus
 - ✔️Nombre en sortie supérieur à 16 caractères -> est transformé en puissance de 10 pour l'affichage: exemple 11 000 000 000 000 000 est transformé en 1.1e+16 (1.1*10^16) -> JS transforme déjà automatiquement en puissance de 10.
 - ✔️Résultat trop grand ou trop petit (limite à 9,999999999999488e+8191 et 9,999999999999488e-8191) -> message de dépassement de capacité, à voir si on met une limite en fonction des capacités de js , ou une limite manuelle -> limite auto de JS (Infinity)
-- Les nombres à l'affichage doivent être séparés en paquet de 3 chiffres
+- ✔️Les nombres à l'affichage doivent être séparés en paquet de 3 chiffres
 - ✔️Que se passe-t-il si une touche est pressé en même temps qu'une cliquée -> s'assurer que l'une soit prioritaire 
 - ✔️Si une erreur non prévue par les éléments ci-dessus -> écrire ``ERROR`` dans ``input_zone`` et mettre le ``data-type=error`` 
 
