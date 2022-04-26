@@ -326,6 +326,12 @@ const displayComplexOperator = currentUserInputValue => {
         result = Math.pow(x, 2);
     }
     else if(currentUserInputValue === "√x"){
+        if(x < 0){
+            inputZone.innerText = "INVALID INPUT";
+            inputZone.dataset.type = "error";
+            erasePreviousCalculation();
+            return;
+        }
         currentCalcDisplayValue = "√" + x;
         result = Math.sqrt(x);
     }
