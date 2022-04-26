@@ -323,6 +323,11 @@ const displayComplexOperator = currentUserInputValue => {
         currentCalcDisplayValue = "√" + x;
         result = Math.sqrt(x);
     }
+    else if(currentUserInputValue === "%"){
+        currentCalcDisplayValue = x + "%";
+        let previousValue = innerIsEmpty(previousNumberElement) ? 0 : previousNumberElement.dataset.value;
+        result = previousValue * x / 100;
+    }
 
     if(innerIsEmpty(previousNumberElement) && innerIsEmpty(latestNumberElement)){
         previousNumberElement.dataset.value = result;
