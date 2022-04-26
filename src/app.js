@@ -181,43 +181,30 @@ const displayEqualSign = currentUserInputValue => {
     let rawValue = inputZone.dataset.value;
     let displayValue = renderCurrentCalcDisplayValue(rawValue.toString());
 
-    //If current_calc is empty:
-    if(innerIsEmpty(previousNumberElement)){
-        previousNumberElement.dataset.value = rawValue;
-        previousNumberElement.innerText = displayValue;
+    //If operator is empty:
+    if(innerIsEmpty(operatorSignElement)){
         inputZone.dataset.value = rawValue;
         inputZone.innerText = displayValue;
-    }
-    //If only previousNumber is not empty (operator is empty)
-    else if(innerIsEmpty(operatorSignElement)){
-        inputZone.dataset.value = rawValue;
-        inputZone.innerText = displayValue;
+        //And if previous number is empty as well:
+        if(innerIsEmpty(previousNumberElement)){
+            previousNumberElement.dataset.value = rawValue;
+            previousNumberElement.innerText = displayValue;
+        }
     }
     //if current_calc end by an operator:
-    else if(!innerIsEmpty(operatorSignElement) && innerIsEmpty(latestNumberElement)) {
+    else if(!innerIsEmpty(operatorSignElement)) {
 
-        latestNumberElement.dataset.value = rawValue;
-        latestNumberElement.innerText = displayValue;
+        //If last number is empty
+        if(innerIsEmpty(latestNumberElement)){
+            latestNumberElement.dataset.value = rawValue;
+            latestNumberElement.innerText = displayValue;
+        }
+        //If there is already "=" sign
+        else if(!innerIsEmpty(equalSignElement)){
+            previousNumberElement.dataset.value = rawValue;
+            previousNumberElement.innerText = displayValue;
+        }
 
-        let rawResult = calculate();
-        let displayResult = renderDisplayValue(rawResult.toString());
-
-        inputZone.dataset.value = rawResult;
-        inputZone.innerText = displayResult;
-    }
-    //if current_calc end by =:
-    else if(!innerIsEmpty(equalSignElement)){
-        previousNumberElement.dataset.value = rawValue;
-        previousNumberElement.innerText = displayValue;
-
-        let rawResult = calculate();
-        let displayResult = renderDisplayValue(rawResult.toString());
-
-        inputZone.dataset.value = rawResult;
-        inputZone.innerText = displayResult;
-    }
-    //If has a complex operator result in latest number and don't end by =:
-    else if(!innerIsEmpty(latestNumberElement) && innerIsEmpty(equalSignElement)){
         let rawResult = calculate();
         let displayResult = renderDisplayValue(rawResult.toString());
 
