@@ -25,6 +25,9 @@ let equalSignElement = document.getElementById("equal_sign");
 
 let maxDigitSize = 16;
 
+let currentUserInputValue = '';
+let currentUserInputClass = '';
+
 //math functions
 const sum = (a, b) => a + b;
 const subtraction = (a, b) => a - b;
@@ -32,9 +35,6 @@ const multiplication = (a, b) => a * b;
 const division = (a, b) => a / b;
 
 //Functions
-let currentUserInputValue = '';
-let currentUserInputClass = '';
-
 /**
  * 
  * @param {string} rawValue 
@@ -56,23 +56,29 @@ const renderCurrentCalcDisplayValue = rawValue => {
     return renderDisplayValue(rawValue).replace(/,$/, '');
 }
 
+/**
+ * 
+ * @param {HTMLElement} element 
+ * @param {*} dataValue 
+ * @param {*} innerValue Optionnal, default value: dataValue
+ */
+const setInnerAndDataValue = (element, dataValue, innerValue=dataValue) => {
+    element.dataset.value = dataValue;
+    element.innerText = innerValue;
+}
+
 const erasePreviousCalculation = () => {
-    previousNumberElement.innerText = "";
-    previousNumberElement.dataset.value = "";
+    let emptyString = "";
 
-    operatorSignElement.innerText = "";
-    operatorSignElement.dataset.value = "";
+    setInnerAndDataValue(previousNumberElement, emptyString);
+    setInnerAndDataValue(operatorSignElement, emptyString);
+    setInnerAndDataValue(latestNumberElement, emptyString);
+    setInnerAndDataValue(equalSignElement, emptyString);
 
-    latestNumberElement.innerText = "";
-    latestNumberElement.dataset.value = "";
-    
-    equalSignElement.innerText = "";
-    equalSignElement.dataset.value = "";
 }
 
 const clearInputZone = () => {
-    inputZone.innerText = 0;
-    inputZone.dataset.value = 0;
+    setInnerAndDataValue(inputZone, 0);
     inputZone.dataset.type = "current";
 }
 
@@ -102,8 +108,7 @@ const clearLast = () => {
     
         let displayValue = renderDisplayValue(rawValue);
     
-        inputZone.dataset.value = rawValue;
-        inputZone.innerText = displayValue;
+        setInnerAndDataValue(inputZone, rawValue, displayValue);
     }
 }
 
@@ -128,8 +133,7 @@ const displayNumberInInputZone = currentUserInputValue => {
 
     let displayValue = renderDisplayValue(rawValue);
 
-    inputZone.dataset.value = rawValue;
-    inputZone.innerText = displayValue;
+    setInnerAndDataValue(inputZone, rawValue, displayValue);
 }
 
 const displayDecimalNumber = currentUserInputValue => {
@@ -139,9 +143,8 @@ const displayDecimalNumber = currentUserInputValue => {
     //Erase previous calculation result
     if(inputZone.dataset.type == "result"){
         erasePreviousCalculation();
+        setInnerAndDataValue(inputZone, 0);
         inputZone.dataset.type = "current";
-        inputZone.dataset.value = 0;
-        inputZone.innerText = 0;
     }
     displayNumberInInputZone(currentUserInputValue);
 }
@@ -182,12 +185,10 @@ const displayEqualSign = currentUserInputValue => {
 
     //If operator is empty:
     if(innerIsEmpty(operatorSignElement)){
-        inputZone.dataset.value = rawValue;
-        inputZone.innerText = displayValue;
+        setInnerAndDataValue(inputZone, rawValue, displayValue);
         //And if previous number is empty as well:
         if(innerIsEmpty(previousNumberElement)){
-            previousNumberElement.dataset.value = rawValue;
-            previousNumberElement.innerText = displayValue;
+            setInnerAndDataValue(previousNumberElement, rawValue, displayValue);
         }
     }
     //if current_calc end by an operator:
@@ -195,24 +196,21 @@ const displayEqualSign = currentUserInputValue => {
 
         //If last number is empty
         if(innerIsEmpty(latestNumberElement)){
-            latestNumberElement.dataset.value = rawValue;
-            latestNumberElement.innerText = displayValue;
+            setInnerAndDataValue(latestNumberElement, rawValue, displayValue);
         }
         //If there is already "=" sign
         else if(!innerIsEmpty(equalSignElement)){
-            previousNumberElement.dataset.value = rawValue;
-            previousNumberElement.innerText = displayValue;
+            setInnerAndDataValue(previousNumberElement, rawValue, displayValue);
         }
 
         let rawResult = calculate();
         let displayResult = renderDisplayValue(rawResult.toString());
 
-        inputZone.dataset.value = rawResult;
-        inputZone.innerText = displayResult;
+        setInnerAndDataValue(inputZone, rawResult, displayResult);
     }
 
-    equalSignElement.dataset.value = currentUserInputValue;
-    equalSignElement.innerText = currentUserInputValue;
+    setInnerAndDataValue(equalSignElement, currentUserInputValue);
+
     inputZone.dataset.type = "result";
 
 }
@@ -236,10 +234,8 @@ const displayOperator = currentUserInputValue => {
             rawValue = calculate();
             rawValueIsCalculated = true;
             if(inputZone.dataset.type == "temporary"){
-                latestNumberElement.innerText = "";
-                latestNumberElement.dataset.value = "";
-                equalSignElement.innerText = "";
-                equalSignElement.dataset.value = "";
+                setInnerAndDataValue(latestNumberElement, "");
+                setInnerAndDataValue(equalSignElement, "");
             }
         }
 
@@ -247,17 +243,14 @@ const displayOperator = currentUserInputValue => {
     
     let displayValue = renderCurrentCalcDisplayValue(rawValue.toString());
 
-    previousNumberElement.dataset.value = rawValue;
-    previousNumberElement.innerText = displayValue;
+    setInnerAndDataValue(previousNumberElement, rawValue, displayValue);
+    setInnerAndDataValue(operatorSignElement, currentUserInputValue);
 
     inputZone.dataset.type = "temporary";
-    operatorSignElement.dataset.value = currentUserInputValue;
-    operatorSignElement.innerText = currentUserInputValue;
 
     if(rawValueIsCalculated){
+        setInnerAndDataValue(inputZone, rawValue, displayValue);
         inputZone.dataset.type = "result";
-        inputZone.dataset.value = rawValue;
-        inputZone.innerText = displayValue;
     }
 }
 
@@ -272,8 +265,7 @@ const switchSign = () => {
     }
     let displayValue = renderDisplayValue(rawValue);
 
-    inputZone.dataset.value = rawValue;
-    inputZone.innerText = displayValue;
+    setInnerAndDataValue(inputZone, rawValue, displayValue);
 }
 
 const displayComplexOperator = currentUserInputValue => {
@@ -311,24 +303,17 @@ const displayComplexOperator = currentUserInputValue => {
         result = previousValue * x / 100;
     }
 
-    if(innerIsEmpty(previousNumberElement) && innerIsEmpty(latestNumberElement)){
-        previousNumberElement.dataset.value = result;
-        previousNumberElement.innerText = currentCalcDisplayValue;
+    if( innerIsEmpty(operatorSignElement) ){
+        setInnerAndDataValue(previousNumberElement, result, currentCalcDisplayValue);
     }
-    else if(!innerIsEmpty(previousNumberElement)) { 
-        if(!innerIsEmpty(operatorSignElement)){
-            latestNumberElement.dataset.value = result;
-            latestNumberElement.innerText = currentCalcDisplayValue;
-        }
-        else if(innerIsEmpty(operatorSignElement)){
-            previousNumberElement.dataset.value = result;
-            previousNumberElement.innerText = currentCalcDisplayValue;            
-        }
+    else if(!innerIsEmpty(operatorSignElement)) { 
+        setInnerAndDataValue(latestNumberElement, result, currentCalcDisplayValue);
+        setInnerAndDataValue(equalSignElement, "");
     }
 
     let displayValue = renderDisplayValue(result.toString());
-    inputZone.dataset.value = result;
-    inputZone.innerText = displayValue;
+    setInnerAndDataValue(inputZone, result, displayValue);
+    
     inputZone.dataset.type = "temporary";
 
 }
