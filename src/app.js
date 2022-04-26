@@ -44,8 +44,7 @@ const renderDisplayValue = rawValue => {
     if(rawValue == "Infinity"){
         return "OVERFLOW ERROR";
     }
-
-    return rawValue.replace('.', ',');
+    return rawValue.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, " ").replace('.', ',');
 }
 
 /** 
