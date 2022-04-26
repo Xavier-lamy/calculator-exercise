@@ -51,10 +51,20 @@ const renderCurrentCalcDisplayValue = rawValue => {
     return rawValue.replace('.', ',').replace(/,$/, '');
 }
 
+/**
+ * 
+ * @param {HTMLElement} element 
+ * @return {boolean}  
+ */
 const innerIsEmpty = element => {
     return element.innerText.length == 0;
 }
 
+/**
+ * 
+ * @param {HTMLElement} element 
+ * @return {boolean}  
+ */
 const valueIsEmpty = element => {
     return element.dataset.value.length == 0;
 }
@@ -100,7 +110,6 @@ const clearLast = () => {
         let rawValue = "0";
     
         if(valueToClear.length > 1){
-            console.log(valueToClear.length);
             rawValue = valueToClear.replace(/.$/, '');        
         }
     
@@ -185,19 +194,19 @@ const displayEqualSign = currentUserInputValue => {
     let displayValue = renderCurrentCalcDisplayValue(rawValue.toString());
 
     //If current_calc is empty:
-    if(previousNumberElement.innerText.length == 0){
+    if(innerIsEmpty(previousNumberElement)){
         previousNumberElement.dataset.value = rawValue;
         previousNumberElement.innerText = displayValue;
         inputZone.dataset.value = rawValue;
         inputZone.innerText = displayValue;
     }
-    //If only previousNumber is not empty
-    else if(operatorSignElement.innerText.length == 0){
+    //If only previousNumber is not empty (operator is empty)
+    else if(innerIsEmpty(operatorSignElement)){
         inputZone.dataset.value = rawValue;
         inputZone.innerText = displayValue;
     }
     //if current_calc end by an operator:
-    else if(operatorSignElement.innerText.length != 0 && latestNumberElement.innerText.length == 0) {
+    else if(!innerIsEmpty(operatorSignElement) && innerIsEmpty(latestNumberElement)) {
 
         latestNumberElement.dataset.value = rawValue;
         latestNumberElement.innerText = displayValue;
@@ -209,7 +218,7 @@ const displayEqualSign = currentUserInputValue => {
         inputZone.innerText = displayResult;
     }
     //if current_calc end by =:
-    else if(equalSignElement.innerText.length != 0){
+    else if(!innerIsEmpty(equalSignElement)){
         previousNumberElement.dataset.value = rawValue;
         previousNumberElement.innerText = displayValue;
 
@@ -219,8 +228,8 @@ const displayEqualSign = currentUserInputValue => {
         inputZone.dataset.value = rawResult;
         inputZone.innerText = displayResult;
     }
-    //If has a temporary result and don't end by =:
-    else if(latestNumberElement.innerText.length != 0 && equalSignElement.innerText.length == 0){
+    //If has a complex operator result in latest number and don't end by =:
+    else if(!innerIsEmpty(latestNumberElement) && innerIsEmpty(equalSignElement)){
         let rawResult = calculate();
         let displayResult = renderDisplayValue(rawResult.toString());
 
@@ -240,16 +249,16 @@ const displayOperator = currentUserInputValue => {
     let rawValueIsCalculated = false;
 
     //Erase previous calculation
-    if(inputZone.dataset.type == "result" && equalSignElement.innerText == "="){
+    if(inputZone.dataset.type == "result" && !innerIsEmpty(equalSignElement)){
         erasePreviousCalculation();
     }
     //Calculate previous number if needed
-    else if(previousNumberElement.innerText.length != 0){
+    else if(!innerIsEmpty(previousNumberElement)){
         if(inputZone.dataset.type == "current"){
             latestNumberElement.dataset.value = rawValue;
         }
 
-        if(latestNumberElement.dataset.value.length != 0){
+        if(!valueIsEmpty(latestNumberElement)){
             rawValue = calculate();
             rawValueIsCalculated = true;
             if(inputZone.dataset.type == "temporary"){
@@ -315,16 +324,16 @@ const displayComplexOperator = currentUserInputValue => {
         result = Math.sqrt(x);
     }
 
-    if(previousNumberElement.innerText.length == 0 && latestNumberElement.innerText.length == 0){
+    if(innerIsEmpty(previousNumberElement) && innerIsEmpty(latestNumberElement)){
         previousNumberElement.dataset.value = result;
         previousNumberElement.innerText = currentCalcDisplayValue;
     }
-    else if(previousNumberElement.innerText.length != 0) { 
-        if(operatorSignElement.innerText.length != 0){
+    else if(!innerIsEmpty(previousNumberElement)) { 
+        if(!innerIsEmpty(operatorSignElement)){
             latestNumberElement.dataset.value = result;
             latestNumberElement.innerText = currentCalcDisplayValue;
         }
-        else if(operatorSignElement.innerText.length == 0){
+        else if(innerIsEmpty(operatorSignElement)){
             previousNumberElement.dataset.value = result;
             previousNumberElement.innerText = currentCalcDisplayValue;            
         }
