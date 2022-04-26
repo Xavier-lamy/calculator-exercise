@@ -262,7 +262,7 @@ const displayOperator = currentUserInputValue => {
             latestNumberElement.dataset.value = rawValue;
         }
 
-        if(!valueIsEmpty(latestNumberElement)){
+        if(!valueIsEmpty(latestNumberElement) && !innerIsEmpty(operatorSignElement)){
             rawValue = calculate();
             rawValueIsCalculated = true;
             if(inputZone.dataset.type == "temporary"){
